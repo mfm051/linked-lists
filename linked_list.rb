@@ -1,24 +1,25 @@
 require_relative 'node'
-require_relative 'head'
 
 class LinkedList
   attr_reader :head, :tail
 
   def initialize
-    @head = Head.new
-    @tail = nil
+    @tail = Node.new
+    @head = Node.new(link: @tail)
   end
 
   def append(value)
     new_node = Node.new(value)
 
-    return @tail = new_node if @tail.nil?
+    @tail.link = new_node unless @tail.nil?
+
+    @tail = new_node
   end
 
   def prepend(value)
-    new_node = Node.new(value)
+    return append(value) if @tail.nil?
 
-    return @head.link = new_node if @head.link.nil?
+    new_node = Node.new(value)
 
     new_node.link = @head.link
 
