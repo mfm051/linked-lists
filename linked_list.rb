@@ -3,24 +3,22 @@ require_relative 'node'
 class LinkedList
   include Enumerable
 
-  attr_reader :head, :tail
-
   def initialize
-    @tail = Node.new
-    @head = Node.new(link: @tail)
+    @head = Head.new
   end
 
   def append(value)
     new_node = Node.new(value)
 
-    @tail.link = new_node unless @tail.nil?
-
-    @tail = new_node
+    if @head.link.nil?
+      @head.link = new_node
+    else
+      # needs a #tail method
+      # tail.link = new_node
+    end
   end
 
   def prepend(value)
-    return append(value) if @tail.nil?
-
     new_node = Node.new(value)
 
     new_node.link = @head.link
@@ -29,12 +27,12 @@ class LinkedList
   end
 
   def each
-    current = @head.link
+    current = @head
 
-    until current == @tail
-      yield current
-
+    until current.link.nil?
       current = current.link
+
+      yield current
     end
   end
 
