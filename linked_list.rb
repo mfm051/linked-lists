@@ -30,13 +30,23 @@ class LinkedList
     current = @head
 
     until current.link.nil?
-      current = current.link
+      yield current.link
 
-      yield current
+      current = current.link
     end
   end
 
   def size
     count
+  end
+
+  def head
+    @head.link
+  end
+
+  def tail
+    return nil if size.zero?
+
+    each { |node| return node if node.link.nil? }
   end
 end
