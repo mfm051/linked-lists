@@ -10,12 +10,9 @@ class LinkedList
   def append(value)
     new_node = Node.new(value)
 
-    if @head.link.nil?
-      @head.link = new_node
-    else
-      # needs a #tail method
-      # tail.link = new_node
-    end
+    return @head.link = new_node if size.zero?
+
+    tail.link = new_node
   end
 
   def prepend(value)
