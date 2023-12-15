@@ -1,6 +1,8 @@
 require_relative 'node'
 
 class LinkedList
+  include Enumerable
+
   attr_reader :head, :tail
 
   def initialize
@@ -24,5 +26,19 @@ class LinkedList
     new_node.link = @head.link
 
     @head.link = new_node
+  end
+
+  def each
+    current = @head.link
+
+    until current == @tail
+      yield current
+
+      current = current.link
+    end
+  end
+
+  def size
+    count
   end
 end
