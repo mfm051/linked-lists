@@ -34,7 +34,13 @@ class LinkedList
   def tail
     return nil if size.zero?
 
-    each { |node| return node if node.link.nil? }
+    each
+  end
+
+  def at(index)
+    each_with_index { |node, i| return node if i == index }
+
+    nil
   end
 
   private
@@ -43,9 +49,11 @@ class LinkedList
     current = @head
 
     until current.link.nil?
-      yield current.link
+      yield current.link if block_given?
 
       current = current.link
     end
+
+    current
   end
 end
