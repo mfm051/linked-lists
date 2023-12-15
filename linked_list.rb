@@ -23,16 +23,6 @@ class LinkedList
     @head.link = new_node
   end
 
-  def each
-    current = @head
-
-    until current.link.nil?
-      yield current.link
-
-      current = current.link
-    end
-  end
-
   def size
     count
   end
@@ -45,5 +35,17 @@ class LinkedList
     return nil if size.zero?
 
     each { |node| return node if node.link.nil? }
+  end
+
+  private
+
+  def each
+    current = @head
+
+    until current.link.nil?
+      yield current.link
+
+      current = current.link
+    end
   end
 end
