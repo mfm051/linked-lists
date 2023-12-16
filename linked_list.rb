@@ -50,6 +50,18 @@ class LinkedList
     second_to_last.link = nil
   end
 
+  def contains?(value)
+    each { |node| return true if node.value == value }
+
+    false
+  end
+
+  def find(value)
+    each_with_index { |node, i| return i if node.value == value }
+
+    nil
+  end
+
   private
 
   def each
