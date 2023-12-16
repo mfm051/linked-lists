@@ -43,6 +43,13 @@ class LinkedList
     nil
   end
 
+  def pop
+    return @head.link = nil if (0..1).include? size
+
+    second_to_last = each { |node| break node if node.link.link.nil? }
+    second_to_last.link = nil
+  end
+
   private
 
   def each
