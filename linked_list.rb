@@ -62,6 +62,14 @@ class LinkedList
     nil
   end
 
+  def to_s
+    result = ''
+
+    each { |node| result += "( #{node.value}: #{node.value.class} ) -> " }
+
+    result + "nil"
+  end
+
   private
 
   def each
