@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'node'
 
+# Linked list implementation
 class LinkedList
   include Enumerable
 
