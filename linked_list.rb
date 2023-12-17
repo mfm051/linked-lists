@@ -81,7 +81,23 @@ class LinkedList
       new_node.link = node.link
       node.link = new_node
 
-      return node
+      return "#{node.value} inserted at #{index}"
+    end
+
+    "#{index} out of reach"
+  end
+
+  def remove_at(index)
+    before_node = @head
+
+    each_with_index do |node, i|
+      next if i < index - 1
+      next before_node = node if i == index - 1
+
+      before_node.link = node.link
+      node.link = nil
+
+      return "#{node.value} removed"
     end
 
     "#{index} out of reach"
