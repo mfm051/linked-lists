@@ -67,7 +67,24 @@ class LinkedList
 
     each { |node| result += "( #{node.value}: #{node.value.class} ) -> " }
 
-    result + "nil"
+    result + 'nil'
+  end
+
+  def insert_at(value, index)
+    return prepend(value) if index.zero?
+
+    new_node = Node.new(value)
+
+    each_with_index do |node, i|
+      next unless i == index - 1
+
+      new_node.link = node.link
+      node.link = new_node
+
+      return node
+    end
+
+    "#{index} out of reach"
   end
 
   private
