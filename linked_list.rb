@@ -34,7 +34,7 @@ class LinkedList
   def tail
     return nil if size.zero?
 
-    each
+    each { |node| return node if node.link.nil? }
   end
 
   def at(index)
@@ -44,7 +44,7 @@ class LinkedList
   end
 
   def pop
-    return @head.link = nil if (0..1).include? size
+    return @head.link = nil if (0..1).include?(size)
 
     second_to_last = each { |node| break node if node.link.link.nil? }
     second_to_last.link = nil
@@ -81,7 +81,7 @@ class LinkedList
       new_node.link = node.link
       node.link = new_node
 
-      return "#{node.value} inserted at #{index}"
+      return "#{new_node.value} inserted at #{index}"
     end
 
     "#{index} out of reach"
@@ -106,14 +106,12 @@ class LinkedList
   private
 
   def each
-    current = @head
+    current = @head.link
 
-    until current.link.nil?
-      yield current.link if block_given?
+    until current.nil?
+      yield current if block_given?
 
       current = current.link
     end
-
-    current
   end
 end
