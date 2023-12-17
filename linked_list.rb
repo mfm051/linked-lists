@@ -109,7 +109,7 @@ class LinkedList
     current = @head.link
 
     until current.nil?
-      yield current if block_given?
+      yield current
 
       current = current.link
     end
