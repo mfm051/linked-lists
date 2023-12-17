@@ -7,23 +7,29 @@ class LinkedList
   include Enumerable
 
   def initialize
-    @head = Head.new
+    @head = nil
   end
 
   def append(value)
     new_node = Node.new(value)
 
-    return @head.link = new_node if size.zero?
+    if @head.nil?
+      @head = new_node
+    else
+      each { |node| break node.link = new_node if node.link.nil? }
+    end
 
-    tail.link = new_node
+    to_s
   end
 
   def prepend(value)
-    new_node = Node.new(value)
+    return append(value) if @head.nil?
 
-    new_node.link = @head.link
+    new_node = Node.new(value, link: @head)
 
-    @head.link = new_node
+    @head = new_node
+
+    to_s
   end
 
   def size
@@ -31,26 +37,33 @@ class LinkedList
   end
 
   def head
-    @head.link
+    @head.value
   end
 
   def tail
-    return nil if size.zero?
+    return nil if @head.nil?
 
-    each { |node| return node if node.link.nil? }
+    each { |node| return node.value if node.link.nil? }
   end
 
   def at(index)
-    each_with_index { |node, i| return node if i == index }
+    each_with_index { |node, i| return node.value if i == index }
 
     nil
   end
 
   def pop
-    return @head.link = nil if (0..1).include?(size)
+    return nil if @head.nil?
 
-    second_to_last = each { |node| break node if node.link.link.nil? }
-    second_to_last.link = nil
+    each do |node|
+      return @head = nil if @head.link.nil?
+
+      next unless node.link.link.nil?
+
+      break node.link = nil
+    end
+
+    to_s
   end
 
   def contains?(value)
@@ -68,9 +81,13 @@ class LinkedList
   def to_s
     result = ''
 
-    each { |node| result += "( #{node.value}: #{node.value.class} ) -> " }
+    each do |node|
+      result += "( #{node.value}: #{node.value.class} ) -> "
 
-    result + 'nil'
+      result += 'nil' if node.link.nil?
+    end
+
+    result
   end
 
   def insert_at(value, index)
@@ -84,32 +101,32 @@ class LinkedList
       new_node.link = node.link
       node.link = new_node
 
-      return "#{new_node.value} inserted at #{index}"
+      return to_s
     end
 
-    "#{index} out of reach"
+    raise ArgumentError, 'index out of reach'
   end
 
   def remove_at(index)
     before_node = @head
 
     each_with_index do |node, i|
-      next if i < index - 1
-      next before_node = node if i == index - 1
+      next before_node = node if i < index
+
+      @head = @head.link if before_node == node
 
       before_node.link = node.link
-      node.link = nil
 
-      return "#{node.value} removed"
+      return node.value
     end
 
-    "#{index} out of reach"
+    nil
   end
 
   private
 
   def each
-    current = @head.link
+    current = @head
 
     until current.nil?
       yield current

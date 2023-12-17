@@ -10,10 +10,3 @@ class Node
     @link = link
   end
 end
-
-# Head is node-ish, but
-class Head < Node
-  def initialize(link = nil)
-    super(nil, link: link)
-  end
-end
